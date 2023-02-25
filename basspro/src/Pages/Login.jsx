@@ -5,7 +5,7 @@ import {Input,Text} from "@chakra-ui/react"
 import {useNavigate} from "react-router-dom"
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Navbar from "./Navbar"
+import Navbar from "../Components/Navbar"
  
 function Login() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ function Login() {
           <Input placeholder="Re-enter"/>
             
                  
-        <Button color="gray">SIGN IN</Button>
+        <Button color="gray" marginTop={3}>SIGN IN</Button>
           
         
           <DrawerBody>CLUB members can now manage their account by signing in through Bass Pro Shops above. Learn More</DrawerBody>

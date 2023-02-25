@@ -1,16 +1,45 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Flex, Spacer, Text, IconButton,Img ,Stack,Heading, Center} from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, IconButton,Img ,Stack,Heading, Center,Grid} from '@chakra-ui/react';
 import { Input } from '@chakra-ui/react'
 import { HamburgerIcon ,SearchIcon} from '@chakra-ui/icons';
-import Login from './Login'
+import Login from '../Pages/Login'
+
+//import React, { useState } from "react";
+import { Button, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton } from "@chakra-ui/react";
+import {useNavigate} from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ProductPage from '../Pages/ProductPage';
+import {Link as RouterLink} from 'react-router-dom'
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from '@chakra-ui/react'
 
 
 function Navbar() {
+  const link=[
+    {path:"/product",title:"Product"},
+    {path:"/Navbar",title:"Navbar"},
+  ]
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+ 
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    //console.log(setEmail)
+  }
 
   return (
     <Stack>
@@ -24,7 +53,7 @@ function Navbar() {
         
         <Input  icon ={<SearchIcon />} variant='filled' placeholder='What can we help you Find?' width={800} borderRadius={50}  />
         <Box display={{ base: "none", md: "flex"}} paddingRight={55} >
-          <Link to="/login">
+          <Link to="/">
               <Img onClick={onOpen} width={50} marginRight={0} src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="/>
           </Link>
           <Link to="/contact">
@@ -36,10 +65,57 @@ function Navbar() {
       {/* ////////////////2nd nav bar/////////////// */}
       <Box  bg="white.200" px={4} py={2}>
     <Flex alignItems="center" justifyContent="space-between" marginLeft={10} marginRight={10} paddingBottom={1}>
-      <Link to="/fishing">
+      <Menu>
+        <MenuButton>
+        <Link to="">
           
-        <Text fontSize="xl" fontWeight="bold">Fishing</Text>
-      </Link>
+          <Text fontSize="xl" fontWeight="bold" >Fishing</Text>
+        </Link>
+        </MenuButton>
+        <MenuList minWidth="1400">
+            <Heading marginLeft={-1270} fontSize={25}>FISHING</Heading>
+            
+          <Grid gridTemplateColumns="repeat(3,1fr)">
+            <Stack>
+            <Heading fontSize={15} marginLeft={1} marginTop={2}>FISHING REELS</Heading>
+            {link.map((e)=>(
+            <RouterLink key={e.path} to={e.path}>
+                   <MenuItem>Baitcast Reels</MenuItem>
+            </RouterLink>
+           
+         ))}
+            {/* <RouterLink > <MenuItem>Baitcast Reels</MenuItem></RouterLink> */}
+            
+            <MenuItem >Spinning Reels</MenuItem>
+            <MenuItem>Saltwater Reels</MenuItem>
+            <MenuItem>Fly Reels</MenuItem>
+            <MenuItem>View All</MenuItem>
+            </Stack>
+            <Stack>
+              <Heading fontSize={15} marginLeft={1} marginTop={2}>FISHING RODS</Heading>
+              <MenuItem>Baitcast Reels</MenuItem>
+              <MenuItem >Spinning Reels</MenuItem>
+              <MenuItem>Saltwater Reels</MenuItem>
+              <MenuItem>Fly Reels</MenuItem>
+              <MenuItem>View All</MenuItem>
+            </Stack>
+            <Stack>
+              <Heading fontSize={15} marginLeft={1} marginTop={2}>FISHING RODS</Heading>
+              <MenuItem onClick={()=> window.location.href = '/Product'}>Baitcast Reels</MenuItem>
+              <MenuItem >Spinning Reels</MenuItem>
+              <MenuItem>Saltwater Reels</MenuItem>
+              <MenuItem>Fly Reels</MenuItem>
+              <MenuItem>View All</MenuItem>
+            </Stack>
+            
+            
+
+            
+          </Grid>
+          
+          
+        </MenuList>
+      
       <Link to="/boating">
           
         <Text fontSize="xl" fontWeight="bold">Boating</Text>
@@ -76,6 +152,7 @@ function Navbar() {
           
         <Text fontSize="xl" fontWeight="bold">Bargin Cave</Text>
       </Link>
+      </Menu>
     </Flex>
     <hr/>
   </Box>
@@ -163,8 +240,68 @@ function Navbar() {
             </Stack>
            
     </Flex>
+    {/* popup//////////////// */}
     
+    {/* <Button onClick={onOpen}>Open Drawer</Button> */}
+      <Drawer isOpen={isOpen} onClose={onClose} gap={3}>
+        <DrawerOverlay />
+        <DrawerContent paddingLeft={2}>
+          <DrawerCloseButton />
+          <DrawerHeader>Sign-in to your Bass Pro Shops account</DrawerHeader>
+          {/* <Text>Email</Text>
+          <Input placeholder="Email"/>
+          <Text>Password</Text>
+          <Input placeholder="Password"/>
+          <Text>Re-enter Password</Text>
+          <Input placeholder="Re-enter"/> */}
+          <form onSubmit={handleSignIn}>
+      <label>
+        Email:
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter Email"
+        />
+       
+      </label>
+      
+      <label>
+        Password:
+        <Input
+          type="password"
+          value={password}
+          placeholder="Enter password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </label>
+      <label>
+        
+        <Input
+           marginTop={3}
+          type="password"
+          
+          placeholder="Re-enter password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </label>
+      
+      <Button type="submit" color="gray" marginTop={3} onClick={()=> window.location.href = '/'}>SIGN IN</Button>
+    </form>
+            
+                 
+       
+          
+        
+          <DrawerBody>CLUB members can now manage their account by signing in through Bass Pro Shops above. Learn More</DrawerBody>
+          <DrawerFooter>Drawer Footer</DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* ///////////drop down//////////////// */}
+     
   </Stack>
+
  
   );
 }
